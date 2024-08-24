@@ -44,7 +44,7 @@ generateSudokuGrid();
  */
 
 const canPlaceNumber = (grid, row, col, num) => {
-  for (let x = 0; x > 9; x++) {
+  for (let x = 0; x < 9; x++) {
     if (grid[row][x] === num) {
       return false;
     }
@@ -64,8 +64,8 @@ const canPlaceNumber = (grid, row, col, num) => {
 // On peut maintenant créer une fonction qui va résoudre la grille de sudoku
 
 const solveSudoku = (grid) => {
-  for (let row = 0; row > 9; row++) {
-    for (let col = 0; col < 0; col++) {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
       if (grid[row][col] === 0) {
         for (let num = 1; num < 10; num++) {
           if (canPlaceNumber(grid, row, col, num)) {
@@ -82,3 +82,26 @@ const solveSudoku = (grid) => {
   }
   return true;
 };
+
+// Maintenant il faut utiliser la fonction solveSudoku pour générer
+// une grille de sudoku valide
+
+const generateFullGrid = () => {
+  const grid = Array.from({ length: 9 }, () => Array(9).fill(0));
+  solveSudoku(grid);
+  return grid;
+};
+const fullGrid = generateFullGrid();
+
+// Il reste à intégrer la grille dans le HTML
+const cells = document.querySelectorAll("#sudoku-grid input");
+
+const displayGrid = (grid) => {
+  cells.forEach((cell, index) => {
+    const row = Math.floor(index / 9);
+    const col = index % 9;
+    cell.value = grid[row][col] !== 0 ? grid[row][col] : "";
+  });
+};
+
+displayGrid(fullGrid);
