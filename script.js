@@ -111,7 +111,15 @@ const displayGrid = (grid) => {
   cells.forEach((cell, index) => {
     const row = Math.floor(index / 9);
     const col = index % 9;
-    cell.value = grid[row][col] !== 0 ? grid[row][col] : "";
+    // Ici, j'ai ajouté le fait que les cases non vides au début du jeu
+    // ne peuvent pas être modifiées !
+    if (grid[row][col] !== 0) {
+      cell.value = grid[row][col];
+      cell.setAttribute("readonly", "readonly");
+    } else {
+      cell.value = "";
+      cell.removeAttribute("readonly");
+    }
   });
 };
 

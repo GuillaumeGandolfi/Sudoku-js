@@ -58,3 +58,13 @@ body {
 #sudoku-grid td:nth-child(3n + 1) {
   border-left: 2px solid #333;
 }
+
+/* Pour différencier les chiffres ajoutés par le joueur */
+input[readonly] {
+  color: #000000;
+  background-color: #f0f0f0;
+}
+
+input:not([readonly]) {
+  color: #486aca;
+}
