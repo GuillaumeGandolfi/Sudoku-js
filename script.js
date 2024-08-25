@@ -144,5 +144,19 @@ const hideNumbers = (grid, emptyCells) => {
 };
 
 const fullGrid = generateFullGrid();
-const gameGrid = hideNumbers(fullGrid, 30);
+const gameGrid = hideNumbers(fullGrid, 10);
 displayGrid(gameGrid);
+
+// Vérification de la grille (bouton caché jusqu'à ce que l'user entre le dernier chiffre)
+const checkIfGridIsFilled = () => {
+  const allCellsFilled = Array.from(cells).every((cell) => cell.value !== "");
+  if (allCellsFilled) {
+    document.getElementById("check-button").style.display = "block";
+  }
+};
+
+cells.forEach((cell) => {
+  cell.addEventListener("input", () => {
+    checkIfGridIsFilled();
+  });
+});
