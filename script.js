@@ -103,7 +103,6 @@ const generateFullGrid = () => {
   solveSudoku(grid);
   return grid;
 };
-const fullGrid = generateFullGrid();
 
 // Il reste à intégrer la grille dans le HTML
 const cells = document.querySelectorAll("#sudoku-grid input");
@@ -116,4 +115,26 @@ const displayGrid = (grid) => {
   });
 };
 
-displayGrid(fullGrid);
+/** Maintenant que j'ai ma grille générée aléatoirement, il faut
+ * "cacher des chiffres pour jouer */
+
+const hideNumbers = (grid, emptyCells) => {
+  let maskedGrid = grid.map((row) => [...row]);
+  let cellstoEmpty = emptyCells;
+
+  while (cellstoEmpty > 0) {
+    const row = Math.floor(Math.random() * 9);
+    const col = Math.floor(Math.random() * 9);
+
+    if (maskedGrid[row][col] !== 0) {
+      maskedGrid[row][col] = 0;
+      cellstoEmpty--;
+    }
+  }
+
+  return maskedGrid;
+};
+
+const fullGrid = generateFullGrid();
+const gameGrid = hideNumbers(fullGrid, 30);
+displayGrid(gameGrid);
