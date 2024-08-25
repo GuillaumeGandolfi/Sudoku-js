@@ -61,13 +61,25 @@ const canPlaceNumber = (grid, row, col, num) => {
   return true;
 };
 
+// Pour ne pas que la grille générée soit toujours la même, j'ai lu qu'il fallait
+// utiliser l'algorithme de Fisher-Yates pour mélanger les chiffres de 1 à 9.
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 // On peut maintenant créer une fonction qui va résoudre la grille de sudoku
 
 const solveSudoku = (grid) => {
   for (let row = 0; row < 9; row++) {
     for (let col = 0; col < 9; col++) {
       if (grid[row][col] === 0) {
-        for (let num = 1; num < 10; num++) {
+        // Ici, maintenant on mélange les chiffres !
+        let numbers = shuffleArray([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+        for (let num of numbers) {
           if (canPlaceNumber(grid, row, col, num)) {
             grid[row][col] = num;
             if (solveSudoku(grid)) {
