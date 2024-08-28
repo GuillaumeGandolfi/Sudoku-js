@@ -160,3 +160,54 @@ cells.forEach((cell) => {
     checkIfGridIsFilled();
   });
 });
+
+const checkArray = (arr) => {
+  const set = new Set();
+  for (let num of arr) {
+    if (num === 0 || set.has(num)) {
+      return false;
+    }
+    set.add(num);
+  }
+  return set.size === 9;
+};
+
+// Et la on vérifie si les règles du sudoku sont respectées
+const checkSudokuRules = (grid) => {
+  for (let i = 0; i < 9; i++) {
+    if (!checkArray(grid[i])) {
+      return false;
+    }
+
+    const col = grid.map((row) => row[i]);
+    if (!checkArray(col)) {
+      return false;
+    }
+
+    const startRow = 3 * Math.floor(i / 3);
+    const startCol = 3 * (i % 3);
+    const block = [];
+    for (let row = startRow; row < startRow + 3; row++) {
+      for (let col = startCol; col < startCol + 3; col++) {
+        block.push(grid[row][col]);
+      }
+    }
+    if (!checkArray(block)) {
+      return false;
+    }
+  }
+  return true;
+};
+// Et on ajoute l'événémenet au bouton
+document.getElementById("check-button").addEventListener("click", () => {
+  const userGrid = Array.from(cells).map((cell) => Number(cell.value) || 0);
+  const grid = [];
+  for (let i = 0; i < 9; i++) {
+    grid.push(userGrid.slice(i * 9, (i + 1) * 9));
+  }
+
+  const result = checkSudokuRules(grid);
+  document.getElementById("result").innerText = result
+    ? "Bravo, vous avez réussi !"
+    : "Il y a une erreur quelque part.";
+});
