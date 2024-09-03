@@ -143,9 +143,27 @@ const hideNumbers = (grid, emptyCells) => {
   return maskedGrid;
 };
 
-const fullGrid = generateFullGrid();
-const gameGrid = hideNumbers(fullGrid, 10);
-displayGrid(gameGrid);
+const starGameWithDifficulty = (difficulty) => {
+  let emptyCells = 0;
+  if (difficulty === "easy") {
+    emptyCells = 30;
+  } else if (difficulty === "medium") {
+    emptyCells = 40;
+  } else if (difficulty === "hard") {
+    emptyCells = 50;
+  }
+
+  const fullGrid = generateFullGrid();
+  const gameGrid = hideNumbers(fullGrid, emptyCells);
+  displayGrid(gameGrid);
+};
+
+document.querySelectorAll("#difficulty-selector button").forEach((button) => {
+  button.addEventListener("click", () => {
+    const difficulty = button.getAttribute("data-difficulty");
+    starGameWithDifficulty(difficulty);
+  });
+});
 
 // Vérification de la grille (bouton caché jusqu'à ce que l'user entre le dernier chiffre)
 const checkIfGridIsFilled = () => {
