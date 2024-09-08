@@ -185,6 +185,8 @@ const startGameWithDifficulty = (difficulty) => {
     emptyCells = 50;
   }
 
+  document.getElementById("check-button").style.display = "none";
+  document.getElementById("result").innerText = "";
   const fullGrid = generateFullGrid();
   const gameGrid = hideNumbersWithUniqueSolution(fullGrid, emptyCells);
   displayGrid(gameGrid);
