@@ -126,7 +126,31 @@ const displayGrid = (grid) => {
 /** Maintenant que j'ai ma grille générée aléatoirement, il faut
  * "cacher des chiffres pour jouer */
 
-const hideNumbers = (grid, emptyCells) => {
+/** Ici, je n'avais pas pensé à une chose : L'unicité de la solution
+En testant un sudoku généré, à la fin, j'avais plusieurs solutions possibles...
+Donc => Vérification qu'il n'y a qu'une unique solution ! 
+Pour cela, on créé d'abord une fonction qui compte le nombre de solution **/
+
+let solutionCount = 0;
+const countSolutions = (grid) => {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (grid[row][col] === 0) {
+        for (let num = 1; num <= 9; num++) {
+          if (canPlaceNumber(grid, row, col, num)) {
+            grid[row][col] = num;
+            countSolutions(grid);
+            grid[row][col] = 0;
+          }
+        }
+        return;
+      }
+    }
+  }
+  solutionCount++;
+};
+
+const hideNumbersWithUniqueSolution = (grid, emptyCells) => {
   let maskedGrid = grid.map((row) => [...row]);
   let cellstoEmpty = emptyCells;
 
@@ -135,15 +159,23 @@ const hideNumbers = (grid, emptyCells) => {
     const col = Math.floor(Math.random() * 9);
 
     if (maskedGrid[row][col] !== 0) {
+      const temp = maskedGrid[row][col];
       maskedGrid[row][col] = 0;
-      cellstoEmpty--;
+
+      solutionCount = 0;
+      countSolutions(maskedGrid);
+
+      if (solutionCount !== 1) {
+        maskedGrid[row][col] = temp;
+      } else {
+        cellstoEmpty--;
+      }
     }
   }
-
   return maskedGrid;
 };
 
-const starGameWithDifficulty = (difficulty) => {
+const startGameWithDifficulty = (difficulty) => {
   let emptyCells = 0;
   if (difficulty === "easy") {
     emptyCells = 30;
@@ -154,14 +186,14 @@ const starGameWithDifficulty = (difficulty) => {
   }
 
   const fullGrid = generateFullGrid();
-  const gameGrid = hideNumbers(fullGrid, emptyCells);
+  const gameGrid = hideNumbersWithUniqueSolution(fullGrid, emptyCells);
   displayGrid(gameGrid);
 };
 
 document.querySelectorAll("#difficulty-selector button").forEach((button) => {
   button.addEventListener("click", () => {
     const difficulty = button.getAttribute("data-difficulty");
-    starGameWithDifficulty(difficulty);
+    startGameWithDifficulty(difficulty);
   });
 });
 
