@@ -1,4 +1,9 @@
 // @ts-nocheck
+
+document.getElementById("close-welcome").addEventListener("click", function () {
+  document.getElementById("welcome-message").style.display = "none";
+});
+
 const sudokuGrid = document.getElementById("sudoku-grid");
 
 const generateSudokuGrid = () => {
