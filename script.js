@@ -1,7 +1,15 @@
 // @ts-nocheck
 
 document.getElementById("close-welcome").addEventListener("click", function () {
-  document.getElementById("welcome-message").style.display = "none";
+  const welcomeMessage = document.getElementById("welcome-message");
+  welcomeMessage.classList.add("fade-out");
+  welcomeMessage.addEventListener(
+    "animationend",
+    function () {
+      welcomeMessage.style.display = "none";
+    },
+    { once: true }
+  );
 });
 
 const sudokuGrid = document.getElementById("sudoku-grid");
