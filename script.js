@@ -280,3 +280,32 @@ document.getElementById("check-button").addEventListener("click", () => {
     ? "Bravo, vous avez réussi !"
     : "Il y a une erreur quelque part.";
 });
+
+/** Je vais faire en sorte que l'user puisse sauvegarder / charger sa partie !
+Pour ça je vais utiliser le localStorage */
+
+const saveGame = () => {
+  const currentGrid = [];
+  cells.forEach((cell) => {
+    currentGrid.push(cell.value ? cell.value : "");
+  });
+
+  localStorage.setItem("sudokuSave", JSON.stringify(currentGrid));
+  alert("Votre partie a été sauvegardée !");
+};
+
+const loadGame = () => {
+  const savedGrid = localStorage.getItem("sudokuSave");
+  if (savedGrid) {
+    const gridValues = JSON.parse(savedGrid);
+    cells.forEach((cell, index) => {
+      cell.value = gridValues[index];
+    });
+    alert("Partie chargée !");
+  } else {
+    alert("Aucune partie trouvée !");
+  }
+};
+
+document.getElementById("save-button").addEventListener("click", saveGame);
+document.getElementById("load-button").addEventListener("click", loadGame);
