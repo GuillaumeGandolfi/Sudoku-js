@@ -192,7 +192,19 @@ const hideNumbersWithUniqueSolution = (grid, emptyCells) => {
   return maskedGrid;
 };
 
+// Pour éviter les conflits entre les parties sauvegardées et les nouvelles parties !
+// Il faut réinitialiser la grille avant d'en recréer une autre
+const resetGrid = () => {
+  cells.forEach((cell) => {
+    cell.value = "";
+    cell.removeAttribute("readonly");
+    cell.style.color = "";
+  });
+};
+
 const startGameWithDifficulty = (difficulty) => {
+  resetGrid();
+
   let emptyCells = 0;
   if (difficulty === "easy") {
     emptyCells = 30;
