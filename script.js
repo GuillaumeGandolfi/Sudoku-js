@@ -287,7 +287,11 @@ Pour ça je vais utiliser le localStorage */
 const saveGame = () => {
   const currentGrid = [];
   cells.forEach((cell) => {
-    currentGrid.push(cell.value ? cell.value : "");
+    currentGrid.push({
+      value: cell.value ? cell.value : "",
+      // Je n'avais pas pensé à une chose : cases modifiables ou non !
+      readonly: cell.hasAttribute("readonly"),
+    });
   });
 
   localStorage.setItem("sudokuSave", JSON.stringify(currentGrid));
@@ -296,15 +300,27 @@ const saveGame = () => {
 
 const loadGame = () => {
   const savedGrid = localStorage.getItem("sudokuSave");
-  if (savedGrid) {
-    const gridValues = JSON.parse(savedGrid);
-    cells.forEach((cell, index) => {
-      cell.value = gridValues[index];
-    });
-    alert("Partie chargée !");
-  } else {
+
+  if (!savedGrid) {
     alert("Aucune partie trouvée !");
+    return;
   }
+  const currentGrid = JSON.parse(savedGrid);
+
+  cells.forEach((cell, index) => {
+    cell.value = currentGrid[index].value ? currentGrid[index].value : "";
+
+    // Restaurer l'état readonly
+    if (currentGrid[index].readonly) {
+      cell.setAttribute("readonly", "readonly");
+      cell.style.color = "#333";
+    } else {
+      cell.removeAttribute("readonly");
+      cell.style.color = "#486aca";
+    }
+  });
+
+  alert("Votre partie a été chargée !");
 };
 
 document.getElementById("save-button").addEventListener("click", saveGame);
