@@ -26,6 +26,10 @@ const generateSudokuGrid = () => {
       const input = document.createElement("input");
       input.type = "text";
       input.maxLength = 1;
+      /** Update : je vais faire en sorte que pour les users téléphone, le clavier
+      numérique s'affiche pour les inputs */
+      input.inputMode = "numeric";
+      input.pattern = "[0-9]*";
 
       input.addEventListener("input", (e) => {
         const value = e.target.value;
