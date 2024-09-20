@@ -12,6 +12,29 @@ document.getElementById("close-welcome").addEventListener("click", function () {
   );
 });
 
+document.getElementById("toggle-theme").addEventListener("click", function () {
+  const body = document.body;
+  const themeButton = document.getElementById("toggle-theme");
+
+  body.classList.toggle("dark-mode");
+  if (body.classList.contains("dark-mode")) {
+    themeButton.textContent = "☀️";
+  } else {
+    themeButton.textContent = "🌙";
+  }
+  const currentTheme = body.classList.contains("dark-mode")
+    ? "dark-mode"
+    : "light-mode";
+  localStorage.setItem("theme", currentTheme);
+});
+
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) {
+  document.body.classList.add(savedTheme);
+  const themeButton = document.getElementById("toggle-theme");
+  themeButton.textContent = savedTheme === "dark-mode" ? "☀️" : "🌙";
+}
+
 const sudokuGrid = document.getElementById("sudoku-grid");
 
 const generateSudokuGrid = () => {
