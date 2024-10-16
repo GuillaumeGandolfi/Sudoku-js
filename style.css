@@ -2,7 +2,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   margin: 0;
   padding-top: 30px;
   background-color: #f4f4f9;
@@ -103,20 +102,20 @@ button {
 }
 
 button[data-difficulty="easy"] {
-  background-color: #2c3e50;
+  background-color: #23946b;
 }
 
 button[data-difficulty="easy"]:hover {
-  background-color: #1a252f;
+  background-color: #0a6342;
   transform: scale(1.05);
 }
 
 button[data-difficulty="medium"] {
-  background-color: #8e44ad;
+  background-color: #e98f53;
 }
 
 button[data-difficulty="medium"]:hover {
-  background-color: #6c3483;
+  background-color: #ce6722;
   transform: scale(1.05);
 }
 
@@ -237,6 +236,37 @@ button[data-difficulty="hard"]:hover {
   outline: none;
 }
 
+#game-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+#save-button,
+#load-button {
+  background-color: #6c757d;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#save-button:hover,
+#load-button:hover {
+  background-color: #5a6268;
+}
+
+.dark-mode #save-button,
+.dark-mode #load-button {
+  background-color: #495057;
+  color: #fff;
+}
+
 /* Mode sombre */
 .dark-mode {
   background-color: #2c3e50;
@@ -270,19 +300,19 @@ button[data-difficulty="hard"]:hover {
 
 /* Boutons de difficulté */
 .dark-mode button[data-difficulty="easy"] {
-  background-color: #27ae60; /* Vert pour facile en mode sombre */
+  background-color: #27ae60;
 }
 
 .dark-mode button[data-difficulty="medium"] {
-  background-color: #f39c12; /* Orange pour moyen */
+  background-color: #f39c12;
 }
 
 .dark-mode button[data-difficulty="hard"] {
-  background-color: #c0392b; /* Rouge pour difficile */
+  background-color: #c0392b;
 }
 
 .dark-mode #check-button {
-  background-color: #8e44ad; /* Violet pour le bouton "Vérifier" */
+  background-color: #8e44ad;
 }
 
 @media (max-width: 768px) {
